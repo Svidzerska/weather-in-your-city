@@ -1,0 +1,19 @@
+header {
+  // background-color: rgb(123, 193, 253);
+  background-image: linear-gradient(to right, rgb(123, 193, 253), white);
+
+  .burgerMenu {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 10px;
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
