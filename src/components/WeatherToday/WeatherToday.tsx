@@ -1,16 +1,34 @@
 import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import "./weatherToday.scss";
 
 import { backgroundChange } from "../../utilities/backgroundImage";
-import { useAppSelector } from "../../app/hooks";
+
+import { getWeatherToday } from "../../features/weather/weatherSlice";
+import { AsyncThunkAction } from "@reduxjs/toolkit";
 
 const WeatherToday: React.FC = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const background = backgroundChange();
 
   const weatherToday: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.weatherToday
   );
+
+  useEffect(() => {
+    let geo = navigator.geolocation;
+    console.log(geo);
+    let id = geo.watchPosition(
+      (pos) => {
+        const coordinates = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+        console.log(pos.coords);
+        dispatch(getWeatherToday(coordinates));
+        geo.clearWatch(id);
+      },
+      (err) => console.log(new Error())
+    );
+  }, []);
 
   useEffect(() => {
     console.log(weatherToday);

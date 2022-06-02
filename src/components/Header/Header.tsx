@@ -6,7 +6,12 @@ import "./header.scss";
 import { ReactComponent as BurgerMenuIcon } from "../../images/svg/burgerMenuIcon.svg";
 import { ReactComponent as CancelIcon } from "../../images/svg/xmarkIcon.svg";
 
-import { getCityCoordinates, getWeatherToday, setSearchMode } from "../../features/weather/weatherSlice";
+import {
+  getCityCoordinates,
+  getWeatherForecast,
+  getWeatherToday,
+  setSearchMode,
+} from "../../features/weather/weatherSlice";
 
 const Header: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -48,6 +53,7 @@ const Header: React.FC = (): JSX.Element => {
 
   const handleSearch = (): void => {
     dispatch(getWeatherToday(coordinates));
+    dispatch(getWeatherForecast(coordinates));
   };
 
   return (

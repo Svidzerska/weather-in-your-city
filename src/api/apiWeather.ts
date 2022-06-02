@@ -28,11 +28,11 @@ export const apiWeather = {
   },
   getWeatherForecast: (lat: number, lon: number) => {
     return try_catch(
-      "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" +
+      "https://api.openweathermap.org/data/2.5/forecast?lat=" +
         lat +
         "&lon=" +
         lon +
-        "&cnt=7&appid=18403b04ed7c3c2c59d89a2a42ba33c0"
+        "&lang=en&units=metric&appid=18403b04ed7c3c2c59d89a2a42ba33c0"
     );
   },
 };
