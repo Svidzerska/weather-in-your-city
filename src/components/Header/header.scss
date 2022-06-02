@@ -1,6 +1,7 @@
+@import "../../utilities/variables.scss";
+
 header {
-  // background-color: rgb(123, 193, 253);
-  background-image: linear-gradient(to right, rgb(123, 193, 253), white);
+  background-image: linear-gradient(to right, $light-blue, $white);
 
   .burgerMenu {
     background: none;
@@ -22,6 +23,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 
     > button {
       width: 40px;
@@ -53,6 +55,11 @@ header {
         font-size: 18px;
         cursor: pointer;
       }
+    }
+
+    .searchCityCountry {
+      margin-top: 0;
+      flex-basis: 100%;
     }
   }
 }

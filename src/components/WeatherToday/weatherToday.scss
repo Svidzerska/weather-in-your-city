@@ -1,8 +1,42 @@
+@import "../../utilities/variables.scss";
+
 .weatherToday {
   height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  p {
-    margin: 0;
+  div {
+    background-color: $aliceblue-opacity;
+    width: 50%;
+    padding: 40px;
+    text-align: center;
+
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      color: $blue;
+    }
+
+    .clouds {
+      font-size: 20px;
+      font-weight: 700;
+      color: $blue-dark;
+    }
+
+    .location {
+      font-style: italic;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .temperature {
+      font-size: 50px;
+      font-weight: 700;
+      color: $blue-dark;
+    }
   }
 }
 
