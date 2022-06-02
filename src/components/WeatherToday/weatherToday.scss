@@ -6,6 +6,13 @@
   align-items: center;
   justify-content: center;
 
+  .error {
+    color: $red;
+    font-size: 24px;
+    font-weight: 700;
+    background-color: $aliceblue-opacity;
+  }
+
   div {
     background-color: $aliceblue-opacity;
     width: 50%;

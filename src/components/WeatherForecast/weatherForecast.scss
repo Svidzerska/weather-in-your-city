@@ -1,0 +1,11 @@
+.forecastView {
+  display: flex;
+  flex-direction: column;
+
+  .forecastView_oneDay {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

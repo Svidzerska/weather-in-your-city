@@ -31,7 +31,6 @@ const Header: React.FC = (): JSX.Element => {
   });
 
   useEffect(() => {
-    console.log(cityCoordinates);
     cityCoordinates?.data &&
       setCoordinates({
         ...coordinates,
@@ -43,7 +42,6 @@ const Header: React.FC = (): JSX.Element => {
   }, [cityCoordinates]);
 
   useEffect(() => {
-    console.log(value);
     dispatch(getCityCoordinates(value));
   }, [value]);
 

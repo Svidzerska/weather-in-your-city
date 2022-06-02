@@ -24,7 +24,7 @@ export const getCityCoordinates = createAsyncThunk<Data, string>(
   "cityCoordinates/getCityCoordinates",
   async (city: string) => {
     return apiWeather.getCityCoordinates(city)?.then((data) => {
-      console.log(data);
+      console.log(!!data);
       return data; //payload - data
     }) as Promise<Data>;
   }
@@ -35,7 +35,6 @@ export const getWeatherToday = createAsyncThunk<Data, { lat: number; lon: number
   async (coordinates) => {
     const { lat, lon } = coordinates;
     return apiWeather.getWeatherToday(lat, lon)?.then((data) => {
-      console.log(data);
       return data; //payload - data
     }) as Promise<Data>;
   }
@@ -46,7 +45,6 @@ export const getWeatherForecast = createAsyncThunk<Data, { lat: number; lon: num
   async (coordinates) => {
     const { lat, lon } = coordinates;
     return apiWeather.getWeatherForecast(lat, lon)?.then((data) => {
-      console.log(data);
       return data; //payload - data
     }) as Promise<Data>;
   }
