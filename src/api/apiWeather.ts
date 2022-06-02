@@ -1,3 +1,14 @@
+async function try_catch(url: string) {
+  try {
+    const result = await fetch(url);
+    const json = await result.json();
+    return json;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+}
+
 export const apiWeather = {
   getCityCoordinates: (city: string) => {
     return try_catch(
@@ -25,14 +36,3 @@ export const apiWeather = {
     );
   },
 };
-
-async function try_catch(url: string) {
-  try {
-    const result = await fetch(url);
-    const json = await result.json();
-    return json;
-  } catch (err) {
-    console.log(err);
-    return err;
-  }
-}
