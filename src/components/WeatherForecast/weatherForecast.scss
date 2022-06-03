@@ -1,5 +1,16 @@
 @import "../../utilities/variables.scss";
 
+@keyframes loardingWeather {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
 .forecastView {
   display: flex;
   flex-direction: column;
@@ -15,6 +26,10 @@
     padding-left: 10px;
     padding-right: 10px;
     overflow-x: auto;
+    animation: loardingWeather;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-direction: normal;
 
     button {
       background: none;
@@ -55,10 +70,44 @@
       flex-basis: 100%;
       display: flex;
       flex-direction: row;
+      animation: loardingWeather;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-direction: normal;
 
       p {
-        width: 100px;
+        width: 150px;
         text-align: left;
+        color: $blue-dark;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .temperature {
+        font-size: 20px;
+        font-weight: 500;
+        color: $blue-dark;
+      }
+
+      .time {
+        color: $blue;
+      }
+    }
+
+    .forecastView_inDetails_Names {
+      flex-basis: 100%;
+      display: flex;
+      flex-direction: row;
+      background-image: linear-gradient(to right, $white, $light-blue);
+      animation: loardingWeather;
+      animation-duration: 0.5s;
+      animation-timing-function: linear;
+      animation-direction: normal;
+
+      p {
+        width: 150px;
+        text-align: left;
+        font-weight: 500;
       }
     }
   }

@@ -13,28 +13,29 @@ const WeatherForecast: React.FC = (): JSX.Element => {
   );
 
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
-  const [day, setDay] = useState<string>("");
+  const [currentDay, setCurrentDay] = useState<string>("");
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(weatherForecast);
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
     setForecastFullInfo(forecastFullInfo);
   }, [weatherForecast]);
 
+  useEffect(() => {}, []);
+
   const handleFullWeather = (day: string): void => {
     console.log(day);
-    setDay(day);
-    isFullWeather ? setFullWeather(false) : setFullWeather(true);
+    setCurrentDay(day);
+    isFullWeather && day === currentDay ? setFullWeather(false) : setFullWeather(true);
   };
 
   const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any) => {
-    if (item?.day === day) {
+    if (item?.day === currentDay) {
       return (
         <div className="forecastView_inDetails">
-          <p>{item?.time_value}</p>
-          <p>{item?.temperature} &#176;C</p>
-          <p>{item?.feels_like} &#176;C</p>
+          <p className="time">{item?.time_value}</p>
+          <p className="temperature">{item?.temperature} &#176;C</p>
+          <p className="temperature">{item?.feels_like} &#176;C</p>
           <p>{item?.pressure}</p>
           <p>{item?.clouds}</p>
           <p>{item?.humidity}</p>
@@ -61,18 +62,18 @@ const WeatherForecast: React.FC = (): JSX.Element => {
             <br />
             <span>{item?.clouds}</span>
           </p>
-          {item?.day === day && isFullWeather && (
-            <div className="forecastView_inDetails">
+          {item?.day === currentDay && isFullWeather && (
+            <div className="forecastView_inDetails_Names">
               <p>Time</p>
               <p>Temperature</p>
               <p>Feels like</p>
-              <p>Pressure</p>
+              <p>Pressure, mm Hg</p>
               <p>Clouds</p>
-              <p>Humidity</p>
-              <p>Wind</p>
+              <p>Humidity, %</p>
+              <p>Wind, m/s</p>
             </div>
           )}
-          {item?.day === day && isFullWeather && forecastDetails}
+          {item?.day === currentDay && isFullWeather && forecastDetails}
         </div>
       );
     } else {

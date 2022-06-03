@@ -35,11 +35,11 @@ export const getForecastFullInfo = (forecastTimeList: any) => {
       day: day,
       temperature: Math.round(unixTimeWeather?.main?.temp),
       feels_like: Math.round(unixTimeWeather?.main?.feels_like),
-      pressure: unixTimeWeather?.main?.pressure,
+      pressure: Math.round(unixTimeWeather?.main?.pressure * 0.75006),
       humidity: unixTimeWeather?.main?.humidity,
       clouds: unixTimeWeather?.weather[0].description,
       icon: unixTimeWeather?.weather[0].icon,
-      wind_speed: unixTimeWeather?.wind?.speed,
+      wind_speed: Math.round(unixTimeWeather?.wind?.speed),
       gust: unixTimeWeather?.wind?.gust,
       wind_direction: d2d(unixTimeWeather?.wind?.deg),
     };
