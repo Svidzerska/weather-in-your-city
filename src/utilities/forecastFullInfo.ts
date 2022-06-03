@@ -34,7 +34,7 @@ export const getForecastFullInfo = (forecastTimeList: any) => {
       time_value: time,
       day: day,
       temperature: Math.round(unixTimeWeather?.main?.temp),
-      feels_like: unixTimeWeather?.main?.feels_like,
+      feels_like: Math.round(unixTimeWeather?.main?.feels_like),
       pressure: unixTimeWeather?.main?.pressure,
       humidity: unixTimeWeather?.main?.humidity,
       clouds: unixTimeWeather?.weather[0].description,

@@ -1,11 +1,65 @@
+@import "../../utilities/variables.scss";
+
 .forecastView {
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
 
   .forecastView_oneDay {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    background-image: linear-gradient(to right, $light-blue, $white);
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-x: auto;
+
+    button {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      vertical-align: middle;
+
+      i {
+        vertical-align: middle;
+      }
+
+      span {
+        padding-left: 30px;
+        font-size: 18px;
+        color: $blue-dark;
+        font-weight: 500;
+      }
+    }
+
+    p {
+      width: 200px;
+      text-align: right;
+
+      span:first-child {
+        font-size: 20px;
+        font-weight: 700;
+        color: $blue-dark;
+      }
+
+      span:last-child {
+        font-size: 14px;
+        font-weight: 500;
+        color: $blue;
+      }
+    }
+
+    .forecastView_inDetails {
+      flex-basis: 100%;
+      display: flex;
+      flex-direction: row;
+
+      p {
+        width: 100px;
+        text-align: left;
+      }
+    }
   }
 }

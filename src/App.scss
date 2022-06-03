@@ -1,0 +1,6 @@
+@import "./utilities/variables.scss";
+
+main {
+  background-image: linear-gradient(to right, $light-blue, $white);
+  min-height: 100vh;
+}
