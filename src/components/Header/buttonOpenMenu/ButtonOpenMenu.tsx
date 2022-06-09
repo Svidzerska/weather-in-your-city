@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { useAppDispatch } from "../../../app/hooks";
 import { setSearchMode } from "../../../features/weather/weatherSlice";
 
 import { ReactComponent as BurgerMenuIcon } from "../../../images/svg/burgerMenuIcon.svg";
 
-const duration = 500;
+const duration = 2000;
 
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out,
@@ -16,9 +16,9 @@ const defaultStyle = {
 
 const transitionStyles: { [key: string]: object } = {
   entering: { opacity: 0, color: "red" },
-  entered: { opacity: 1, color: "green" },
+  entered: { opacity: 0, color: "green" }, //end point and switch of to search field
   exiting: { opacity: 0, color: "blue" },
-  exited: { opacity: 0.6, color: "yellow" },
+  exited: { opacity: 1, color: "black" }, //start point
 };
 
 interface Props {
@@ -35,7 +35,13 @@ const ButtonOpenMenu: React.FC = (): JSX.Element => {
       in={inProp}
       timeout={duration}
       addEndListener={(node, done) => {
-        node.addEventListener("transitionend", () => dispatch(setSearchMode(true)), false);
+        node.addEventListener(
+          "transitionend",
+          () => {
+            dispatch(setSearchMode(true));
+          },
+          false
+        );
       }}
     >
       {(state: TransitionStatus) => (

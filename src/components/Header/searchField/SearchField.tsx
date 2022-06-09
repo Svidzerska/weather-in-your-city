@@ -6,7 +6,7 @@ import { ReactComponent as CancelIcon } from "../../../images/svg/xmarkIcon.svg"
 import { getCityCoordinates, setSearchMode } from "../../../features/weather/weatherSlice";
 import { Transition, TransitionStatus } from "react-transition-group";
 
-const duration = 500;
+const duration = 2000;
 
 const defaultStyle = {
   transition: `opacity ${duration}ms ease-in-out,
@@ -17,9 +17,9 @@ const defaultStyle = {
 
 const transitionStyles: { [key: string]: object } = {
   entering: { opacity: 0, color: "red" },
-  entered: { opacity: 1, color: "green" },
+  entered: { opacity: 0, color: "green" },
   exiting: { opacity: 0, color: "blue" },
-  exited: { opacity: 0.6, color: "yellow" },
+  exited: { opacity: 1, color: "violet" },
 };
 
 interface Props {
