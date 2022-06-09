@@ -1,13 +1,13 @@
 @import "../../utilities/variables.scss";
 
-@keyframes loarding {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+// @keyframes loarding {
+//   from {
+//     opacity: 0;
+//   }
+//   to {
+//     opacity: 1;
+//   }
+// }
 
 header {
   background-image: linear-gradient(to right, $light-blue, $white);
@@ -20,10 +20,10 @@ header {
     height: 40px;
     padding: 0;
     margin: 10px;
-    animation: loarding;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-direction: normal;
+    // animation: loarding;
+    // animation-duration: 0.5s;
+    // animation-timing-function: linear;
+    // animation-direction: normal;
 
     svg {
       width: 100%;
@@ -37,10 +37,10 @@ header {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    animation: loarding;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-direction: normal;
+    // animation: loarding;
+    // animation-duration: 0.5s;
+    // animation-timing-function: linear;
+    // animation-direction: normal;
 
     > button {
       width: 40px;

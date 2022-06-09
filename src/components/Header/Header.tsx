@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { SwitchTransition, Transition, TransitionGroup, TransitionStatus } from "react-transition-group";
 
 import "./header.scss";
 
 import { ReactComponent as BurgerMenuIcon } from "../../images/svg/burgerMenuIcon.svg";
-import { ReactComponent as CancelIcon } from "../../images/svg/xmarkIcon.svg";
 
 import {
   getCityCoordinates,
@@ -12,17 +12,37 @@ import {
   getWeatherToday,
   setSearchMode,
 } from "../../features/weather/weatherSlice";
+import ButtonOpenMenu from "./buttonOpenMenu/ButtonOpenMenu";
+import SearchField from "./searchField/SearchField";
+
+// const duration = 500;
+
+// const defaultStyle = {
+//   transition: `opacity ${duration}ms ease-in-out,
+//    color ${duration}ms ease-in-out`,
+//   opacity: 0,
+//   color: "red",
+// };
+
+// const transitionStyles: { [key: string]: object } = {
+//   entering: { opacity: 0, color: "red" },
+//   entered: { opacity: 1, color: "green" },
+//   exiting: { opacity: 0, color: "blue" },
+//   exited: { opacity: 0.6, color: "yellow" },
+// };
+
+// interface Props {
+//   inProp: boolean;
+// }
 
 const Header: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const lookup = require("country-code-lookup");
 
   const isSearchMode: boolean = useAppSelector((state) => state.weather.isSearchMode);
   const cityCoordinates: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.cityCoordinates
   );
 
-  const [value, setValue] = useState<string>("");
   const [coordinates, setCoordinates] = useState<{ name: string; country: string; lat: number; lon: number }>({
     name: "",
     country: "",
@@ -41,14 +61,6 @@ const Header: React.FC = (): JSX.Element => {
       });
   }, [cityCoordinates]);
 
-  useEffect(() => {
-    dispatch(getCityCoordinates(value));
-  }, [value]);
-
-  const handleInput = (e: React.FormEvent<HTMLInputElement>): void => {
-    setValue(e.currentTarget.value);
-  };
-
   const handleSearch = (): void => {
     dispatch(getWeatherToday(coordinates));
     dispatch(getWeatherForecast(coordinates));
@@ -56,32 +68,7 @@ const Header: React.FC = (): JSX.Element => {
 
   return (
     <header>
-      {isSearchMode ? (
-        <section className="searchModeSection">
-          <p>
-            <input onChange={handleInput} type="text" value={value} />
-            <button onClick={handleSearch} disabled={!(!!coordinates.country && coordinates.country !== "")}>
-              <i>Search</i>
-            </button>
-          </p>
-          <button onClick={() => dispatch(setSearchMode(false))}>
-            <i>
-              <CancelIcon />
-            </i>
-          </button>
-          <p className="searchCityCountry">
-            {coordinates.name}
-            <br />
-            {coordinates.country && lookup.byIso(coordinates.country)?.country}
-          </p>
-        </section>
-      ) : (
-        <button className="burgerMenu" onClick={() => dispatch(setSearchMode(true))}>
-          <i>
-            <BurgerMenuIcon />
-          </i>
-        </button>
-      )}
+      {isSearchMode ? <SearchField handleSearch={handleSearch} coordinates={coordinates} /> : <ButtonOpenMenu />}
     </header>
   );
 };
