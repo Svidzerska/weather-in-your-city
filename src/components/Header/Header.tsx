@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { SwitchTransition, Transition, TransitionGroup, TransitionStatus } from "react-transition-group";
+import { SwitchTransition, CSSTransition, TransitionGroup, TransitionStatus } from "react-transition-group";
 
 import "./header.scss";
 
