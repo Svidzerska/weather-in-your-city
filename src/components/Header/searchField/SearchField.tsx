@@ -22,11 +22,15 @@ const SearchField: React.FC<Props> = ({ handleSearch, coordinates }) => {
   const isSearchMode: boolean = useAppSelector((state) => state.weather.isSearchMode);
 
   const [value, setValue] = useState<string>("");
+  const [isGetCoordinates, setGetCoordinates] = useState<boolean>(false);
   const [inProp, setInProp] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(value);
-    value !== "" && dispatch(getCityCoordinates(value));
+    console.log(coordinates);
+  }, [coordinates]);
+
+  useEffect(() => {
+    value.length === 1 && dispatch(getCityCoordinates(value)).then(() => setGetCoordinates(true));
   }, [value]);
 
   useEffect(() => {
@@ -34,31 +38,23 @@ const SearchField: React.FC<Props> = ({ handleSearch, coordinates }) => {
   }, [isSearchMode]);
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>): void => {
+    setGetCoordinates(false);
     setValue(e.currentTarget.value);
   };
 
   return (
-    <CSSTransition
-      in={inProp}
-      timeout={duration}
-      className="search"
-      appear={true}
-      // addEndListener={(node, done) => {
-      //   node.addEventListener("transitionend", () => dispatch(setSearchMode(false)), false);
-      // }}
-      unmountOnExit={true}
-      onExited={() => dispatch(setSearchMode(false))}
-    >
+    <CSSTransition in={inProp} timeout={duration} className="search" onExited={() => dispatch(setSearchMode(false))}>
       <section>
         <p>
-          <input onChange={handleInput} type="text" value={value} />
-          <button onClick={() => handleSearch()} disabled={!(!!coordinates.country && coordinates.country !== "")}>
+          <CSSTransition in={isGetCoordinates} timeout={500} classNames="textInput">
+            <input onChange={handleInput} type="text" value={value} />
+          </CSSTransition>
+          <button onClick={() => handleSearch()} disabled={!(!!coordinates.country && value !== "")}>
             <i>Search</i>
           </button>
         </p>
         <button
           onClick={() => {
-            // dispatch(setSearchMode(false));
             setInProp(false);
           }}
         >
@@ -66,11 +62,20 @@ const SearchField: React.FC<Props> = ({ handleSearch, coordinates }) => {
             <CancelIcon />
           </i>
         </button>
-        <p className="searchCityCountry">
-          {coordinates.name}
-          <br />
-          {coordinates.country && lookup.byIso(coordinates.country)?.country}
-        </p>
+        <CSSTransition
+          in={isGetCoordinates}
+          timeout={duration}
+          className="searchCityCountry"
+          onExited={() => {
+            value !== "" && dispatch(getCityCoordinates(value)).then(() => setGetCoordinates(true));
+          }}
+        >
+          <p>
+            {coordinates.name}
+            <br />
+            {coordinates.country && lookup.byIso(coordinates.country).country}
+          </p>
+        </CSSTransition>
       </section>
     </CSSTransition>
   );

@@ -25,17 +25,7 @@ const ButtonOpenMenu: React.FC = (): JSX.Element => {
   }, [isSearchMode]);
 
   return (
-    <CSSTransition
-      in={inProp}
-      timeout={duration}
-      className="burgerMenu"
-      appear={true}
-      // addEndListener={(node, done) => {
-      //   node.addEventListener("transitionend", () => dispatch(setSearchMode(true)), false);
-      // }}
-      // unmountOnExit={true}
-      onExited={() => dispatch(setSearchMode(true))}
-    >
+    <CSSTransition in={inProp} timeout={duration} className="burgerMenu" onExited={() => dispatch(setSearchMode(true))}>
       <section>
         <button
           onClick={() => {

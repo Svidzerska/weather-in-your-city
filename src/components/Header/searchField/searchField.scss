@@ -70,3 +70,50 @@
   max-height: 60px;
   transition: opacity 500ms, max-height 500ms;
 }
+
+.searchCityCountry.enter,
+.searchCityCountry.appear {
+  opacity: 0;
+}
+.searchCityCountry.enter-active,
+.searchCityCountry.appear-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+.searchCityCountry.exit {
+  opacity: 1;
+}
+.searchCityCountry.exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+.searchCityCountry.exit-done {
+  opacity: 0;
+}
+
+.textInput-enter,
+.textInput-appear {
+  color: rgb(86, 28, 163);
+}
+.textInput-enter-active,
+.textInput-appear-active {
+  color: $light-blue;
+  transition: color 500ms;
+}
+
+.textInput-enter-done {
+  color: $light-blue;
+}
+
+.textInput-exit {
+  color: $light-blue;
+}
+.textInput-exit-active {
+  color: rgb(86, 28, 163);
+  transition: color 500ms;
+}
+
+.textInput-exit-done {
+  color: rgb(86, 28, 163);
+}
