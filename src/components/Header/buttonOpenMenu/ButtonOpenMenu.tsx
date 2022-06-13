@@ -8,7 +8,7 @@ import { setSearchMode } from "../../../features/weather/weatherSlice";
 
 import { ReactComponent as BurgerMenuIcon } from "../../../images/svg/burgerMenuIcon.svg";
 
-const duration = 2000;
+const duration = 250;
 
 const ButtonOpenMenu: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -36,16 +36,17 @@ const ButtonOpenMenu: React.FC = (): JSX.Element => {
       // unmountOnExit={true}
       onExited={() => dispatch(setSearchMode(true))}
     >
-      <button
-        onClick={() => {
-          // dispatch(setSearchMode(true));
-          setInProp(false);
-        }}
-      >
-        <i>
-          <BurgerMenuIcon />
-        </i>
-      </button>
+      <section>
+        <button
+          onClick={() => {
+            setInProp(false);
+          }}
+        >
+          <i>
+            <BurgerMenuIcon />
+          </i>
+        </button>
+      </section>
     </CSSTransition>
   );
 };

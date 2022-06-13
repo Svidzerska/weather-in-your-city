@@ -1,35 +1,38 @@
-.burgerMenu {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  margin: 10px;
-  // animation: loarding;
-  // animation-duration: 0.5s;
-  // animation-timing-function: linear;
-  // animation-direction: normal;
+@import "../../../utilities/variables.scss";
 
-  svg {
-    width: 100%;
-    height: auto;
+.burgerMenu {
+  background-image: linear-gradient(to right, $light-blue, $white);
+
+  button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 10px;
+
+    svg {
+      width: 100%;
+      height: auto;
+    }
   }
 }
 
-.enter,
-.appear {
+.burgerMenu.enter,
+.burgerMenu.appear {
   opacity: 0;
 }
-.enter-active,
-.appear-active {
+.burgerMenu.enter-active,
+.burgerMenu.appear-active {
   opacity: 1;
-  transition: opacity 1000ms;
+  transition: opacity 500ms;
 }
-.exit {
+.burgerMenu.exit {
   opacity: 1;
 }
-.exit-active {
+
+.burgerMenu.exit-active {
   opacity: 0;
-  transition: opacity 1000ms;
+  transition: opacity 500ms;
 }

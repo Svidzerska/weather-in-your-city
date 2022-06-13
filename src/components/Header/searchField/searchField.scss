@@ -1,19 +1,19 @@
+@import "../../../utilities/variables.scss";
+
 .search {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  // animation: loarding;
-  // animation-duration: 0.5s;
-  // animation-timing-function: linear;
-  // animation-direction: normal;
+  background-image: linear-gradient(to right, $white, $light-blue);
 
   > button {
     width: 40px;
     height: 40px;
     background: none;
     border: 0;
+    margin-right: 10px;
     cursor: pointer;
 
     svg {
@@ -37,6 +37,7 @@
       width: auto;
       height: 40px;
       font-size: 18px;
+      padding: 0;
       cursor: pointer;
     }
   }
@@ -47,21 +48,25 @@
   }
 }
 
-.enter,
-.appear {
+.search.enter,
+.search.appear {
   opacity: 0;
   max-height: 60px;
+  background-image: linear-gradient(to right, $light-blue, $white);
 }
-.enter-active,
-.appear-active {
+.search.enter-active,
+.search.appear-active {
   opacity: 1;
   max-height: 180px;
-  transition: opacity 1000ms, max-height 1000ms;
+  background-image: linear-gradient(to right, $white, $light-blue);
+  transition: opacity 500ms, max-height 500ms, background-image 500ms;
 }
-.exit {
+.search.exit {
   opacity: 1;
+  max-height: 180px;
 }
-.exit-active {
+.search.exit-active {
   opacity: 0;
-  transition: opacity 1000ms;
+  max-height: 60px;
+  transition: opacity 500ms, max-height 500ms;
 }

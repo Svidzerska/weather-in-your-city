@@ -8,21 +8,7 @@ import { ReactComponent as CancelIcon } from "../../../images/svg/xmarkIcon.svg"
 import { getCityCoordinates, setSearchMode } from "../../../features/weather/weatherSlice";
 import { Transition, TransitionStatus, CSSTransition } from "react-transition-group";
 
-const duration = 2000;
-
-const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out,
-   color ${duration}ms ease-in-out`,
-  opacity: 0,
-  color: "red",
-};
-
-const transitionStyles: { [key: string]: object } = {
-  entering: { opacity: 0, color: "red" },
-  entered: { opacity: 0, color: "green" },
-  exiting: { opacity: 0, color: "blue" },
-  exited: { opacity: 1, color: "violet" },
-};
+const duration = 250;
 
 interface Props {
   handleSearch: Function;
@@ -39,8 +25,13 @@ const SearchField: React.FC<Props> = ({ handleSearch, coordinates }) => {
   const [inProp, setInProp] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(getCityCoordinates(value));
+    console.log(value);
+    value !== "" && dispatch(getCityCoordinates(value));
   }, [value]);
+
+  useEffect(() => {
+    isSearchMode && setInProp(true);
+  }, [isSearchMode]);
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>): void => {
     setValue(e.currentTarget.value);
@@ -48,7 +39,7 @@ const SearchField: React.FC<Props> = ({ handleSearch, coordinates }) => {
 
   return (
     <CSSTransition
-      in={isSearchMode}
+      in={inProp}
       timeout={duration}
       className="search"
       appear={true}
@@ -56,18 +47,19 @@ const SearchField: React.FC<Props> = ({ handleSearch, coordinates }) => {
       //   node.addEventListener("transitionend", () => dispatch(setSearchMode(false)), false);
       // }}
       unmountOnExit={true}
+      onExited={() => dispatch(setSearchMode(false))}
     >
       <section>
         <p>
           <input onChange={handleInput} type="text" value={value} />
-          <button onClick={() => handleSearch} disabled={!(!!coordinates.country && coordinates.country !== "")}>
+          <button onClick={() => handleSearch()} disabled={!(!!coordinates.country && coordinates.country !== "")}>
             <i>Search</i>
           </button>
         </p>
         <button
           onClick={() => {
-            dispatch(setSearchMode(false));
-            setInProp(true);
+            // dispatch(setSearchMode(false));
+            setInProp(false);
           }}
         >
           <i>

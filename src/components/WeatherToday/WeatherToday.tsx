@@ -18,18 +18,18 @@ const WeatherToday: React.FC = (): JSX.Element => {
     (state) => state.weather.cityCoordinates
   );
 
-  useEffect(() => {
-    let geo = navigator.geolocation;
-    let id = geo.watchPosition(
-      (pos) => {
-        const coordinates = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-        console.log(pos.coords);
-        dispatch(getWeatherToday(coordinates));
-        geo.clearWatch(id);
-      },
-      (err) => console.log(new Error())
-    );
-  }, []);
+  // useEffect(() => {
+  //   let geo = navigator.geolocation;
+  //   let id = geo.watchPosition(
+  //     (pos) => {
+  //       const coordinates = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+  //       console.log(pos.coords);
+  //       dispatch(getWeatherToday(coordinates));
+  //       geo.clearWatch(id);
+  //     },
+  //     (err) => console.log(new Error())
+  //   );
+  // }, []);
 
   return (
     <section className={`weatherToday ${background}`}>
