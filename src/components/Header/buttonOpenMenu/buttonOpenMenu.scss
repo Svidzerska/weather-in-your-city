@@ -35,14 +35,17 @@
 }
 
 .burgerMenu-exit {
+  border: 1px solid red;
   opacity: 1;
 }
 
 .burgerMenu-exit-active {
   opacity: 0;
-  transition: opacity 500ms;
+  border: 1px solid green;
+  transition: opacity 500ms, color 500ms;
 }
 
 .burgerMenu-exit-done {
+  border: 1px solid green;
   opacity: 0;
 }

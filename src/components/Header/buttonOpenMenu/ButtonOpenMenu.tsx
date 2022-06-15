@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Transition, TransitionStatus, CSSTransition } from "react-transition-group";
+import { Transition, TransitionStatus, CSSTransition, TransitionGroup } from "react-transition-group";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import "./buttonOpenMenu.scss";
@@ -16,9 +16,9 @@ const ButtonOpenMenu: React.FC = (): JSX.Element => {
   const isSearchMode: boolean = useAppSelector((state) => state.weather.isSearchMode);
   const [inProp, setInProp] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   console.log(isSearchMode);
-  // }, [isSearchMode]);
+  useEffect(() => {
+    console.log(isSearchMode);
+  }, [isSearchMode]);
 
   useEffect(() => {
     !isSearchMode && setInProp(true);
@@ -29,7 +29,7 @@ const ButtonOpenMenu: React.FC = (): JSX.Element => {
       in={inProp}
       timeout={duration}
       classNames="burgerMenu"
-      onExited={() => dispatch(setSearchMode(true))}
+      onExited={() => setTimeout(() => dispatch(setSearchMode(true)), 3000)}
     >
       <section className="burgerMenu">
         <button

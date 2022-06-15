@@ -47,7 +47,6 @@ const SearchField: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log(coordinates, cityCoordinates);
     value !== "" &&
       cityCoordinates?.data &&
       setCoordinates({
@@ -65,7 +64,7 @@ const SearchField: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(coordinates);
+    return () => console.log(coordinates);
   }, [coordinates]);
 
   useEffect(() => {
@@ -82,7 +81,14 @@ const SearchField: React.FC = () => {
   };
 
   return (
-    <CSSTransition in={inProp} timeout={duration} classNames="search" onExited={() => dispatch(setSearchMode(false))}>
+    <CSSTransition
+      in={inProp}
+      timeout={duration}
+      classNames="search"
+      onExited={() => {
+        isSearchMode && dispatch(setSearchMode(false));
+      }}
+    >
       <section className="search">
         <p>
           <CSSTransition in={isGetCoordinates} timeout={500} classNames="textInput">
