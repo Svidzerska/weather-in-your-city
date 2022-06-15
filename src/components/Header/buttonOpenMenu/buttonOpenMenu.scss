@@ -19,20 +19,30 @@
   }
 }
 
-.burgerMenu.enter,
-.burgerMenu.appear {
+.burgerMenu-enter,
+.burgerMenu-appear {
   opacity: 0;
 }
-.burgerMenu.enter-active,
-.burgerMenu.appear-active {
+.burgerMenu-enter-active,
+.burgerMenu-appear-active {
   opacity: 1;
   transition: opacity 500ms;
 }
-.burgerMenu.exit {
+
+.burgerMenu-appear-done,
+.burgerMenu-enter-done {
   opacity: 1;
 }
 
-.burgerMenu.exit-active {
+.burgerMenu-exit {
+  opacity: 1;
+}
+
+.burgerMenu-exit-active {
   opacity: 0;
   transition: opacity 500ms;
+}
+
+.burgerMenu-exit-done {
+  opacity: 0;
 }

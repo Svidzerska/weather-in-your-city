@@ -18,6 +18,10 @@ import SearchField from "./searchField/SearchField";
 const Header: React.FC = (): JSX.Element => {
   const isSearchMode: boolean = useAppSelector((state) => state.weather.isSearchMode);
 
+  useEffect(() => {
+    console.log(isSearchMode);
+  }, [isSearchMode]);
+
   return <header>{isSearchMode ? <SearchField /> : <ButtonOpenMenu />}</header>;
 };
 

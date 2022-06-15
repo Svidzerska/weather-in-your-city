@@ -16,17 +16,22 @@ const ButtonOpenMenu: React.FC = (): JSX.Element => {
   const isSearchMode: boolean = useAppSelector((state) => state.weather.isSearchMode);
   const [inProp, setInProp] = useState<boolean>(false);
 
-  useEffect(() => {
-    console.log(isSearchMode);
-  }, [isSearchMode]);
+  // useEffect(() => {
+  //   console.log(isSearchMode);
+  // }, [isSearchMode]);
 
   useEffect(() => {
     !isSearchMode && setInProp(true);
   }, [isSearchMode]);
 
   return (
-    <CSSTransition in={inProp} timeout={duration} className="burgerMenu" onExited={() => dispatch(setSearchMode(true))}>
-      <section>
+    <CSSTransition
+      in={inProp}
+      timeout={duration}
+      classNames="burgerMenu"
+      onExited={() => dispatch(setSearchMode(true))}
+    >
+      <section className="burgerMenu">
         <button
           onClick={() => {
             setInProp(false);

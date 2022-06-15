@@ -48,47 +48,59 @@
   }
 }
 
-.search.enter,
-.search.appear {
+.search-enter,
+.search-appear {
   opacity: 0;
   max-height: 60px;
   background-image: linear-gradient(to right, $light-blue, $white);
 }
-.search.enter-active,
-.search.appear-active {
+.search-enter-active,
+.search-appear-active {
   opacity: 1;
   max-height: 180px;
   background-image: linear-gradient(to right, $white, $light-blue);
   transition: opacity 500ms, max-height 500ms, background-image 500ms;
 }
-.search.exit {
+
+.search-enter-done {
+  opacity: 1;
+  max-height: 180px;
+  background-image: linear-gradient(to right, $white, $light-blue);
+}
+
+.search-exit {
   opacity: 1;
   max-height: 180px;
 }
-.search.exit-active {
+.search-exit-active {
   opacity: 0;
   max-height: 60px;
   transition: opacity 500ms, max-height 500ms;
 }
 
-.searchCityCountry.enter,
-.searchCityCountry.appear {
+.search-exit-done {
+  opacity: 0;
+  max-height: 60px;
+}
+
+.searchCityCountry-enter,
+.searchCityCountry-appear {
   opacity: 0;
 }
-.searchCityCountry.enter-active,
-.searchCityCountry.appear-active {
+.searchCityCountry-enter-active,
+.searchCityCountry-appear-active {
   opacity: 1;
   transition: opacity 500ms;
 }
-.searchCityCountry.exit {
+.searchCityCountry-exit {
   opacity: 1;
 }
-.searchCityCountry.exit-active {
+.searchCityCountry-exit-active {
   opacity: 0;
   transition: opacity 500ms;
 }
 
-.searchCityCountry.exit-done {
+.searchCityCountry-exit-done {
   opacity: 0;
 }
 
