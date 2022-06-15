@@ -32,7 +32,7 @@ const WeatherForecast: React.FC = (): JSX.Element => {
   const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any) => {
     if (item?.day === currentDay) {
       return (
-        <div className="forecastView_inDetails">
+        <div className="forecastView_inDetails" key={item?.day}>
           <p className="time">{item?.time_value}</p>
           <p className="temperature">{item?.temperature} &#176;C</p>
           <p className="temperature">{item?.feels_like} &#176;C</p>
