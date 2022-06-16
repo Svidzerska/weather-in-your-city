@@ -6,9 +6,20 @@ import "./weatherToday.scss";
 
 import { backgroundChange } from "../../utilities/backgroundImage";
 
-import { getWeatherForecast, getWeatherToday, setSearchDone } from "../../features/weather/weatherSlice";
+import { getWeatherToday, setSearchDone } from "../../features/weather/weatherSlice";
 
-const WeatherToday: React.FC = (): JSX.Element => {
+const duration = 500;
+
+interface Props {
+  coordinates: {
+    name: string;
+    country: string;
+    lat: number;
+    lon: number;
+  };
+}
+
+const WeatherToday: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const dispatch = useAppDispatch();
   const background = backgroundChange();
   const lookup = require("country-code-lookup");
@@ -21,29 +32,6 @@ const WeatherToday: React.FC = (): JSX.Element => {
   );
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
 
-  const [coordinates, setCoordinates] = useState<{
-    name: string;
-    country: string;
-    lat: number;
-    lon: number;
-  }>({
-    name: "",
-    country: "",
-    lat: 0,
-    lon: 0,
-  });
-
-  useEffect(() => {
-    cityCoordinates?.data &&
-      setCoordinates({
-        ...coordinates,
-        name: cityCoordinates.data[0]?.name,
-        country: cityCoordinates.data[0]?.country,
-        lat: cityCoordinates.data[0]?.lat,
-        lon: cityCoordinates.data[0]?.lon,
-      });
-  }, [cityCoordinates]);
-
   useEffect(() => {
     !cityCoordinates?.data && dispatch(setSearchDone(true));
   }, []);
@@ -52,8 +40,8 @@ const WeatherToday: React.FC = (): JSX.Element => {
     <section className={`weatherToday ${background}`}>
       <CSSTransition
         in={isSearchDone}
-        timeout={5000}
-        classNames="forecastView"
+        timeout={1000}
+        classNames="weatherToday"
         appear
         onEnter={() => {
           console.log(coordinates);

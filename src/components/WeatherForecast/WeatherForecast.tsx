@@ -7,48 +7,30 @@ import "./weatherForecast.scss";
 import { ReactComponent as CaretDownIcon } from "../../images/svg/caretDownIcon.svg";
 
 import { getForecastFullInfo } from "../../utilities/forecastFullInfo";
-import { getWeatherForecast, getWeatherToday, setNextSearch, setSearchDone } from "../../features/weather/weatherSlice";
-import { is } from "immer/dist/internal";
+import { getWeatherForecast, setSearchDone } from "../../features/weather/weatherSlice";
 
 const duration = 500;
 
-const WeatherForecast: React.FC = (): JSX.Element => {
+interface Props {
+  coordinates: {
+    name: string;
+    country: string;
+    lat: number;
+    lon: number;
+  };
+}
+
+const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const weatherForecast: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.weatherForecast
   );
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
-  const cityCoordinates: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
-    (state) => state.weather.cityCoordinates
-  );
 
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
   const [currentDay, setCurrentDay] = useState<string>("");
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
-
-  const [coordinates, setCoordinates] = useState<{
-    name: string;
-    country: string;
-    lat: number;
-    lon: number;
-  }>({
-    name: "",
-    country: "",
-    lat: 0,
-    lon: 0,
-  });
-
-  useEffect(() => {
-    cityCoordinates?.data &&
-      setCoordinates({
-        ...coordinates,
-        name: cityCoordinates.data[0]?.name,
-        country: cityCoordinates.data[0]?.country,
-        lat: cityCoordinates.data[0]?.lat,
-        lon: cityCoordinates.data[0]?.lon,
-      });
-  }, [cityCoordinates]);
 
   useEffect(() => {
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
@@ -120,7 +102,7 @@ const WeatherForecast: React.FC = (): JSX.Element => {
   return (
     <CSSTransition
       in={isSearchDone}
-      timeout={5000}
+      timeout={2000}
       classNames="forecastView"
       onEnter={() => dispatch(getWeatherForecast(coordinates))}
       onExited={() => dispatch(getWeatherForecast(coordinates)).then(() => dispatch(setSearchDone(true)))}

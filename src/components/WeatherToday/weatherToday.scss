@@ -63,3 +63,35 @@
 .spring {
   background-image: url(../../images/jpg/spring.jpg);
 }
+
+.weatherToday-enter,
+.weatherToday-appear {
+  opacity: 0;
+  max-height: 0;
+}
+.weatherToday-enter-active,
+.weatherToday-appear-active {
+  opacity: 1;
+  max-height: 180px;
+  transition: opacity 1000ms ease-in-out, max-height 1000ms ease-in-out;
+}
+
+.weatherToday-enter-done {
+  opacity: 1;
+  max-height: 180px;
+}
+
+.weatherToday-exit {
+  opacity: 1;
+  max-height: 180px;
+}
+.weatherToday-exit-active {
+  opacity: 0;
+  max-height: 0;
+  transition: opacity 1000ms ease-in-out, max-height 1000ms ease-in-out;
+}
+
+.weatherToday-exit-done {
+  max-height: 0;
+  opacity: 0;
+}
