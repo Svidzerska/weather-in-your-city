@@ -1,27 +1,63 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { CSSTransition } from "react-transition-group";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import "./weatherForecast.scss";
 
 import { ReactComponent as CaretDownIcon } from "../../images/svg/caretDownIcon.svg";
 
 import { getForecastFullInfo } from "../../utilities/forecastFullInfo";
+import { getWeatherForecast, getWeatherToday, setNextSearch, setSearchDone } from "../../features/weather/weatherSlice";
+import { is } from "immer/dist/internal";
+
+const duration = 500;
 
 const WeatherForecast: React.FC = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+
   const weatherForecast: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.weatherForecast
+  );
+  const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
+  const cityCoordinates: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
+    (state) => state.weather.cityCoordinates
   );
 
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
   const [currentDay, setCurrentDay] = useState<string>("");
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
 
+  const [coordinates, setCoordinates] = useState<{
+    name: string;
+    country: string;
+    lat: number;
+    lon: number;
+  }>({
+    name: "",
+    country: "",
+    lat: 0,
+    lon: 0,
+  });
+
+  useEffect(() => {
+    cityCoordinates?.data &&
+      setCoordinates({
+        ...coordinates,
+        name: cityCoordinates.data[0]?.name,
+        country: cityCoordinates.data[0]?.country,
+        lat: cityCoordinates.data[0]?.lat,
+        lon: cityCoordinates.data[0]?.lon,
+      });
+  }, [cityCoordinates]);
+
   useEffect(() => {
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
     setForecastFullInfo(forecastFullInfo);
   }, [weatherForecast]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(isSearchDone);
+  }, [isSearchDone]);
 
   const handleFullWeather = (day: string): void => {
     console.log(day);
@@ -81,7 +117,21 @@ const WeatherForecast: React.FC = (): JSX.Element => {
     }
   });
 
-  return <section className="forecastView">{forecastView}</section>;
+  return (
+    <CSSTransition
+      in={isSearchDone}
+      timeout={5000}
+      classNames="forecastView"
+      onEnter={() => dispatch(getWeatherToday(coordinates)).then(() => dispatch(getWeatherForecast(coordinates)))}
+      onExited={() =>
+        dispatch(getWeatherToday(coordinates))
+          .then(() => dispatch(getWeatherForecast(coordinates)))
+          .then(() => dispatch(setSearchDone(true)))
+      }
+    >
+      <section className="forecastView">{forecastView}</section>
+    </CSSTransition>
+  );
 };
 
 export default WeatherForecast;

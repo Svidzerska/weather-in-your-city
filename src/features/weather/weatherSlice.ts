@@ -7,6 +7,8 @@ interface InitialState {
   cityCoordinates: { data: any | null; isPending: boolean; error: any | null };
   weatherToday: { data: any | null; isPending: boolean; error: any | null };
   weatherForecast: { data: any | null; isPending: boolean; error: any | null };
+  isSearchDone: boolean;
+  isNextSearch: boolean;
 }
 
 interface Data {
@@ -18,6 +20,8 @@ const initialState: InitialState = {
   cityCoordinates: { data: null, isPending: false, error: null },
   weatherToday: { data: null, isPending: false, error: null },
   weatherForecast: { data: null, isPending: false, error: null },
+  isSearchDone: false,
+  isNextSearch: true,
 };
 
 export const getCityCoordinates = createAsyncThunk<Data, string>(
@@ -56,6 +60,12 @@ export const weatherSlice = createSlice({
   reducers: {
     setSearchMode: (state: InitialState, action: PayloadAction<boolean>) => {
       state.isSearchMode = action.payload;
+    },
+    setSearchDone: (state: InitialState, action: PayloadAction<boolean>) => {
+      state.isSearchDone = action.payload;
+    },
+    setNextSearch: (state: InitialState, action: PayloadAction<boolean>) => {
+      state.isNextSearch = action.payload;
     },
   },
 
@@ -110,6 +120,6 @@ export const weatherSlice = createSlice({
   },
 });
 
-export const { setSearchMode } = weatherSlice.actions;
+export const { setSearchMode, setSearchDone, setNextSearch } = weatherSlice.actions;
 
 export default weatherSlice.reducer;

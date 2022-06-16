@@ -118,16 +118,13 @@
 }
 
 .textInput-exit {
-  background-color: yellow;
   color: $light-blue;
 }
 .textInput-exit-active {
-  background-color: blue;
   color: rgb(86, 28, 163);
-  transition: color 500ms, background-color 500ms;
+  transition: color 500ms;
 }
 
 .textInput-exit-done {
-  background-color: blue;
   color: rgb(86, 28, 163);
 }

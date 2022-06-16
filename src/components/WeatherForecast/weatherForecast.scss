@@ -1,15 +1,15 @@
 @import "../../utilities/variables.scss";
 
-@keyframes loardingWeather {
-  from {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  to {
-    opacity: 1;
-    transform: scaleY(1);
-  }
-}
+// @keyframes loardingWeather {
+//   from {
+//     opacity: 0;
+//     transform: scaleY(0);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: scaleY(1);
+//   }
+// }
 
 .forecastView {
   display: flex;
@@ -26,10 +26,10 @@
     padding-left: 10px;
     padding-right: 10px;
     overflow-x: auto;
-    animation: loardingWeather;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-direction: normal;
+    // animation: loardingWeather;
+    // animation-duration: 0.5s;
+    // animation-timing-function: linear;
+    // animation-direction: normal;
 
     button {
       background: none;
@@ -70,10 +70,10 @@
       flex-basis: 100%;
       display: flex;
       flex-direction: row;
-      animation: loardingWeather;
-      animation-duration: 0.5s;
-      animation-timing-function: linear;
-      animation-direction: normal;
+      // animation: loardingWeather;
+      // animation-duration: 0.5s;
+      // animation-timing-function: linear;
+      // animation-direction: normal;
 
       p {
         width: 150px;
@@ -99,10 +99,10 @@
       display: flex;
       flex-direction: row;
       background-image: linear-gradient(to right, $white, $light-blue);
-      animation: loardingWeather;
-      animation-duration: 0.5s;
-      animation-timing-function: linear;
-      animation-direction: normal;
+      // animation: loardingWeather;
+      // animation-duration: 0.5s;
+      // animation-timing-function: linear;
+      // animation-direction: normal;
 
       p {
         width: 150px;
@@ -111,4 +111,30 @@
       }
     }
   }
+}
+
+.forecastView-enter,
+.forecastView-appear {
+  opacity: 0;
+}
+.forecastView-enter-active,
+.forecastView-appear-active {
+  opacity: 1;
+  transition: opacity 5000ms;
+}
+
+.forecastView-enter-done {
+  opacity: 1;
+}
+
+.forecastView-exit {
+  opacity: 1;
+}
+.forecastView-exit-active {
+  opacity: 0;
+  transition: opacity 5000ms;
+}
+
+.forecastView-exit-done {
+  opacity: 0;
 }

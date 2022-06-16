@@ -9,11 +9,13 @@ import {
   getCityCoordinates,
   getWeatherForecast,
   getWeatherToday,
+  setNextSearch,
+  setSearchDone,
   setSearchMode,
 } from "../../../features/weather/weatherSlice";
 import { Transition, TransitionStatus, CSSTransition } from "react-transition-group";
 
-const duration = 250;
+const duration = 500;
 
 interface Props {
   handleSearch: Function;
@@ -24,15 +26,15 @@ const SearchField: React.FC = () => {
   const dispatch = useAppDispatch();
   const lookup = require("country-code-lookup");
 
-  const isSearchMode: boolean = useAppSelector((state) => state.weather.isSearchMode);
-
   const [value, setValue] = useState<string>("");
   const [isGetCoordinates, setGetCoordinates] = useState<boolean>(false);
-  const [inProp, setInProp] = useState<boolean>(false);
 
   const cityCoordinates: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.cityCoordinates
   );
+
+  const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
+  const isNextSearch: boolean = useAppSelector((state) => state.weather.isNextSearch);
 
   const [coordinates, setCoordinates] = useState<{
     name: string;
@@ -59,70 +61,53 @@ const SearchField: React.FC = () => {
   }, [cityCoordinates]);
 
   const handleSearch = (): void => {
-    dispatch(getWeatherToday(coordinates));
-    dispatch(getWeatherForecast(coordinates));
+    isSearchDone ? dispatch(setSearchDone(false)) : dispatch(setSearchDone(true));
   };
-
-  useEffect(() => {
-    return () => console.log(coordinates);
-  }, [coordinates]);
 
   useEffect(() => {
     value.length === 1 && dispatch(getCityCoordinates(value)).then(() => setGetCoordinates(true));
   }, [value]);
 
-  useEffect(() => {
-    isSearchMode && setInProp(true);
-  }, [isSearchMode]);
-
   const handleInput = (e: React.FormEvent<HTMLInputElement>): void => {
     setGetCoordinates(false);
+    setSearchDone(false);
     setValue(e.currentTarget.value);
   };
 
   return (
-    <CSSTransition
-      in={inProp}
-      timeout={duration}
-      classNames="search"
-      onExited={() => {
-        isSearchMode && dispatch(setSearchMode(false));
-      }}
-    >
-      <section className="search">
-        <p>
-          <CSSTransition in={isGetCoordinates} timeout={500} classNames="textInput">
-            <input onChange={handleInput} type="text" value={value} />
-          </CSSTransition>
-          <button onClick={() => handleSearch()} disabled={!(!!coordinates.country && value !== "")}>
-            <i>Search</i>
-          </button>
-        </p>
-        <button
-          onClick={() => {
-            setInProp(false);
-          }}
-        >
-          <i>
-            <CancelIcon />
-          </i>
-        </button>
-        <CSSTransition
-          in={isGetCoordinates}
-          timeout={duration}
-          classNames="searchCityCountry"
-          onExited={() => {
-            value !== "" && dispatch(getCityCoordinates(value)).then(() => setGetCoordinates(true));
-          }}
-        >
-          <p className="searchCityCountry">
-            {coordinates.name}
-            <br />
-            {coordinates.country && lookup.byIso(coordinates.country).country}
-          </p>
+    <section className="search">
+      <p>
+        <CSSTransition in={isGetCoordinates} timeout={duration} classNames="textInput">
+          <input onChange={handleInput} type="text" value={value} />
         </CSSTransition>
-      </section>
-    </CSSTransition>
+        <button onClick={() => handleSearch()} disabled={!(!!coordinates.country && value !== "")}>
+          <i>Search</i>
+        </button>
+      </p>
+      <button
+        onClick={() => {
+          dispatch(setSearchMode(false));
+        }}
+      >
+        <i>
+          <CancelIcon />
+        </i>
+      </button>
+      <CSSTransition
+        in={isGetCoordinates}
+        timeout={duration}
+        classNames="searchCityCountry"
+        onExited={() => {
+          value !== "" && dispatch(getCityCoordinates(value)).then(() => setGetCoordinates(true));
+        }}
+      >
+        <p className="searchCityCountry">
+          {coordinates.name}
+          <br />
+          {coordinates.country && lookup.byIso(coordinates.country).country}
+        </p>
+      </CSSTransition>
+    </section>
   );
 };
 
