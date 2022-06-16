@@ -122,12 +122,8 @@ const WeatherForecast: React.FC = (): JSX.Element => {
       in={isSearchDone}
       timeout={5000}
       classNames="forecastView"
-      onEnter={() => dispatch(getWeatherToday(coordinates)).then(() => dispatch(getWeatherForecast(coordinates)))}
-      onExited={() =>
-        dispatch(getWeatherToday(coordinates))
-          .then(() => dispatch(getWeatherForecast(coordinates)))
-          .then(() => dispatch(setSearchDone(true)))
-      }
+      onEnter={() => dispatch(getWeatherForecast(coordinates))}
+      onExited={() => dispatch(getWeatherForecast(coordinates)).then(() => dispatch(setSearchDone(true)))}
     >
       <section className="forecastView">{forecastView}</section>
     </CSSTransition>
