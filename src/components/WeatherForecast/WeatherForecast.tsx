@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import "./weatherForecast.scss";
@@ -31,20 +31,17 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
   const [currentDay, setCurrentDay] = useState<string>("");
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
+  const [isShortWeather, setShortWeather] = useState<boolean>(false);
 
   useEffect(() => {
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
     setForecastFullInfo(forecastFullInfo);
   }, [weatherForecast]);
 
-  useEffect(() => {
-    console.log(isSearchDone);
-  }, [isSearchDone]);
-
   const handleFullWeather = (day: string): void => {
     console.log(day);
     setCurrentDay(day);
-    isFullWeather && day === currentDay ? setFullWeather(false) : setFullWeather(true);
+    isFullWeather && day === currentDay ? setShortWeather(false) : setShortWeather(true);
   };
 
   const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any) => {
@@ -80,18 +77,31 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
             <br />
             <span>{item?.clouds}</span>
           </p>
-          {item?.day === currentDay && isFullWeather && (
-            <div className="forecastView_inDetails_Names">
-              <p>Time</p>
-              <p>Temperature</p>
-              <p>Feels like</p>
-              <p>Pressure, mm Hg</p>
-              <p>Clouds</p>
-              <p>Humidity, %</p>
-              <p>Wind, m/s</p>
+          <CSSTransition
+            in={item?.day === currentDay && isShortWeather}
+            timeout={2000}
+            classNames={"weatherDetailed"}
+            onEnter={() => item?.day === currentDay && setFullWeather(true)}
+            onExited={() => item?.day === currentDay && setFullWeather(false)}
+            unmountOnExit
+          >
+            <div>
+              {item?.day === currentDay && isFullWeather && (
+                <>
+                  <div className="forecastView_inDetails_Names">
+                    <p>Time</p>
+                    <p>Temperature</p>
+                    <p>Feels like</p>
+                    <p>Pressure, mm Hg</p>
+                    <p>Clouds</p>
+                    <p>Humidity, %</p>
+                    <p>Wind, m/s</p>
+                  </div>
+                  {forecastDetails}
+                </>
+              )}
             </div>
-          )}
-          {item?.day === currentDay && isFullWeather && forecastDetails}
+          </CSSTransition>
         </div>
       );
     } else {

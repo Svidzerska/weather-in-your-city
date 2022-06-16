@@ -1,16 +1,5 @@
 @import "../../utilities/variables.scss";
 
-// @keyframes loardingWeather {
-//   from {
-//     opacity: 0;
-//     transform: scaleY(0);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: scaleY(1);
-//   }
-// }
-
 .forecastView {
   display: flex;
   flex-direction: column;
@@ -26,6 +15,7 @@
     padding-left: 10px;
     padding-right: 10px;
     overflow-x: auto;
+    overflow-y: hidden;
 
     button {
       background: none;
@@ -60,6 +50,10 @@
         font-weight: 500;
         color: $blue;
       }
+    }
+
+    div {
+      flex-basis: 100%;
     }
 
     .forecastView_inDetails {
@@ -125,4 +119,38 @@
 
 .forecastView-exit-done {
   opacity: 0;
+}
+//weatherDetailed
+.weatherDetailed-enter,
+.weatherDetailed-appear {
+  opacity: 0;
+  max-height: 0;
+}
+.weatherDetailed-enter-active,
+.weatherDetailed-appear-active {
+  opacity: 1;
+  max-height: 1000px;
+  transition: opacity 2000ms ease-in-out, max-height 2000ms;
+}
+
+.weatherDetailed-enter-done {
+  opacity: 1;
+  max-height: 1000px;
+}
+
+.weatherDetailed-exit {
+  opacity: 1;
+  max-height: 1000px;
+}
+.weatherDetailed-exit-active {
+  opacity: 0;
+  flex-basis: 100%;
+  max-height: 0;
+  transition: opacity 2000ms ease-in-out, max-height 2000ms;
+}
+
+.weatherDetailed-exit-done {
+  opacity: 0;
+  max-height: 0;
+  flex-basis: 100%;
 }
