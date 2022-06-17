@@ -32,6 +32,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const [currentDay, setCurrentDay] = useState<string>("");
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
   const [isShortWeather, setShortWeather] = useState<boolean>(false);
+  const [isSameDay, setSameDay] = useState<boolean>(false);
 
   useEffect(() => {
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
@@ -41,13 +42,14 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const handleFullWeather = (day: string): void => {
     console.log(day);
     setCurrentDay(day);
+    // day === currentDay ? setSameDay(true) : setSameDay(false);
     isFullWeather && day === currentDay ? setShortWeather(false) : setShortWeather(true);
   };
 
-  const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any) => {
+  const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any, index: number) => {
     if (item?.day === currentDay) {
       return (
-        <div className="forecastView_inDetails" key={item?.day}>
+        <div className="forecastView_inDetails" key={item?.day + index}>
           <p className="time">{item?.time_value}</p>
           <p className="temperature">{item?.temperature} &#176;C</p>
           <p className="temperature">{item?.feels_like} &#176;C</p>
@@ -97,7 +99,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
                     <p>Humidity, %</p>
                     <p>Wind, m/s</p>
                   </div>
-                  {forecastDetails}
+                  <div>{forecastDetails}</div>
                 </>
               )}
             </div>
