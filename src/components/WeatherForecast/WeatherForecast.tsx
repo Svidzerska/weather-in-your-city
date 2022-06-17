@@ -29,25 +29,30 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
 
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
-  const [currentDay, setCurrentDay] = useState<string>("");
+  const [currentDays, setCurrentDays] = useState<string[]>([]);
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
-  const [isShortWeather, setShortWeather] = useState<boolean>(false);
-  const [isSameDay, setSameDay] = useState<boolean>(false);
 
   useEffect(() => {
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
     setForecastFullInfo(forecastFullInfo);
   }, [weatherForecast]);
 
+  useEffect(() => {
+    console.log(currentDays);
+  }, [currentDays]);
+
   const handleFullWeather = (day: string): void => {
     console.log(day);
-    setCurrentDay(day);
-    // day === currentDay ? setSameDay(true) : setSameDay(false);
-    isFullWeather && day === currentDay ? setShortWeather(false) : setShortWeather(true);
+    currentDays.includes(day)
+      ? setCurrentDays(() => currentDays.filter((item) => !(item === day)))
+      : setCurrentDays(() => [...currentDays, day]);
+
+    // isFullWeather && day === currentDay ? setShortWeather(false) : setShortWeather(true);
+    // currentDays.includes(day) ? (isFullWeather ? setFullWeather(false) : setFullWeather(true)) : setFullWeather(true);
   };
 
   const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any, index: number) => {
-    if (item?.day === currentDay) {
+    if (item?.day === currentDays[currentDays.findIndex((currentItem) => currentItem === item?.day)]) {
       return (
         <div className="forecastView_inDetails" key={item?.day + index}>
           <p className="time">{item?.time_value}</p>
@@ -64,11 +69,12 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
     }
   });
 
-  const forecastView: (JSX.Element | null)[] = forecastFullInfo?.map((item: any) => {
+  const forecastView: (JSX.Element | null)[] = forecastFullInfo?.map((item: any, index: number) => {
+    console.log(item?.day);
     if (item?.time_value === "12:00") {
       return (
-        <div className="forecastView_oneDay" key={item?.day}>
-          <button onClick={() => handleFullWeather(item?.day)}>
+        <div className="forecastView_oneDay" key={item?.day + index}>
+          <button id={`${item?.day}`} onClick={() => handleFullWeather(item?.day)}>
             <i>
               <CaretDownIcon />
             </i>
@@ -79,31 +85,35 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
             <br />
             <span>{item?.clouds}</span>
           </p>
-          <CSSTransition
-            in={item?.day === currentDay && isShortWeather}
+          {/* <CSSTransition
+            // in={item?.day === currentDay && isShortWeather}
+            // timeout={2000}
+            // classNames={"weatherDetailed"}
+            // onEnter={() => item?.day === currentDay && setFullWeather(true)}
+            // onExited={() => item?.day === currentDay && setFullWeather(false)}
+            // unmountOnExit
+            in={item?.day === currentDay && isFullWeather}
             timeout={2000}
             classNames={"weatherDetailed"}
-            onEnter={() => item?.day === currentDay && setFullWeather(true)}
-            onExited={() => item?.day === currentDay && setFullWeather(false)}
             unmountOnExit
-          >
-            <div>
-              {item?.day === currentDay && isFullWeather && (
-                <>
-                  <div className="forecastView_inDetails_Names">
-                    <p>Time</p>
-                    <p>Temperature</p>
-                    <p>Feels like</p>
-                    <p>Pressure, mm Hg</p>
-                    <p>Clouds</p>
-                    <p>Humidity, %</p>
-                    <p>Wind, m/s</p>
-                  </div>
-                  <div>{forecastDetails}</div>
-                </>
-              )}
-            </div>
-          </CSSTransition>
+          > */}
+          <div>
+            {currentDays.includes(item?.day) && (
+              <>
+                <div className="forecastView_inDetails_Names">
+                  <p>Time</p>
+                  <p>Temperature</p>
+                  <p>Feels like</p>
+                  <p>Pressure, mm Hg</p>
+                  <p>Clouds</p>
+                  <p>Humidity, %</p>
+                  <p>Wind, m/s</p>
+                </div>
+                <div>{forecastDetails}</div>
+              </>
+            )}
+          </div>
+          {/* </CSSTransition> */}
         </div>
       );
     } else {
