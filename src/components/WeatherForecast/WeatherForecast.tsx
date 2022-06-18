@@ -4,8 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import "./weatherForecast.scss";
 
-import { ReactComponent as CaretDownIcon } from "../../images/svg/caretDownIcon.svg";
-
 import { getForecastFullInfo } from "../../utilities/forecastFullInfo";
 import { getWeatherForecast, setSearchDone } from "../../features/weather/weatherSlice";
 import WeatherDetails from "./WeatherDetails/WeatherDetails";
@@ -31,9 +29,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
 
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
-  // const [forecastTwelve, setForecastTwelve] = useState<any>([]);
   const [currentDays, setCurrentDays] = useState<string[]>([]);
-  const [isFullWeather, setFullWeather] = useState<boolean>(false);
 
   useEffect(() => {
     const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
@@ -49,39 +45,25 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
     currentDays.includes(day)
       ? setCurrentDays(() => currentDays.filter((item) => !(item === day)))
       : setCurrentDays(() => [...currentDays, day]);
-
-    // isFullWeather && day === currentDay ? setShortWeather(false) : setShortWeather(true);
-    // currentDays.includes(day) ? (isFullWeather ? setFullWeather(false) : setFullWeather(true)) : setFullWeather(true);
   };
 
   const forecastTwelve = forecastFullInfo?.filter((item: any) => item?.time_value === "12:00");
   console.log(forecastTwelve);
 
-  const forecastView: (JSX.Element | null)[] = forecastFullInfo?.map((item: any, index: number) => {
+  const forecastView: (JSX.Element | null)[] = forecastTwelve?.map((item: any, index: number) => {
     //any
-    console.log(item?.day);
-    // item?.time_value === "12:00" && setForecastTwelve([...forecastTwelve, item]);
-
-    return item?.time_value === "12:00" ? (
-      <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} key={item?.day + index} />
-    ) : null;
-
-    // if (item?.time_value === "12:00" && !currentDays.includes(item?.day)) {
-    //   return <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} key={item?.day + index} />;
-    // } else {
-    //   return (
-    //     <div key={item?.day + index}>
-    //       {currentDays.includes(item?.day) && (
-    //         <>
-    //           {item?.time_value === "12:00" && (
-    //             <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
-    //           )}
-    //           <WeatherDetails item={item} index={index} />
-    //         </>
-    //       )}
-    //     </div>
-    //   );
-    // }
+    return (
+      <div key={item?.day + index}>
+        <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
+        {currentDays.includes(item?.day) && (
+          <>
+            {forecastFullInfo?.map((_item: any, _index: number) => {
+              return _item?.day === item?.day && <WeatherDetails item={_item} index={_index} />;
+            })}
+          </>
+        )}
+      </div>
+    );
   });
 
   return (
