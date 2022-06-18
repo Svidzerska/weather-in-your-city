@@ -56,13 +56,13 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
       <li key={item?.day + index}>
         <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
         {currentDays.includes(item?.day) && (
-          <>
+          <div className="weatherForecast_inDetails_block">
             {forecastFullInfo?.map((_item: any, _index: number) => {
               return (
                 _item?.day === item?.day && <WeatherDetails item={_item} index={_index} key={_item?.day + _index} />
               );
             })}
-          </>
+          </div>
         )}
       </li>
     );

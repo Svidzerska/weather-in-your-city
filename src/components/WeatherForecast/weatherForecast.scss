@@ -6,6 +6,10 @@
   list-style-type: none;
   padding-right: 40px;
 
+  > li {
+    overflow-x: auto;
+  }
+
   .forecastView_oneDay {
     display: flex;
     flex-direction: row;
@@ -52,10 +56,10 @@
         color: $blue;
       }
     }
+  }
 
-    div {
-      flex-basis: 100%;
-    }
+  .forecastView_inDetails_block {
+    overflow-x: auto;
   }
 }
 
