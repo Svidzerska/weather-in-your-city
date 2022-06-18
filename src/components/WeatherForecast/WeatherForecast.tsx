@@ -9,6 +9,7 @@ import { ReactComponent as CaretDownIcon } from "../../images/svg/caretDownIcon.
 import { getForecastFullInfo } from "../../utilities/forecastFullInfo";
 import { getWeatherForecast, setSearchDone } from "../../features/weather/weatherSlice";
 import WeatherDetails from "./WeatherDetails/WeatherDetails";
+import WeatherShort from "./WeatherShort/WeatherShort";
 
 const duration = 500;
 
@@ -30,6 +31,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
 
   const [forecastFullInfo, setForecastFullInfo] = useState([]);
+  // const [forecastTwelve, setForecastTwelve] = useState<any>([]);
   const [currentDays, setCurrentDays] = useState<string[]>([]);
   const [isFullWeather, setFullWeather] = useState<boolean>(false);
 
@@ -52,80 +54,34 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
     // currentDays.includes(day) ? (isFullWeather ? setFullWeather(false) : setFullWeather(true)) : setFullWeather(true);
   };
 
-  // const forecastDetails: (JSX.Element | null)[] = forecastFullInfo?.map((item: any, index: number) => {
-  //   //any
-  //   if (item?.day === currentDays[currentDays.findIndex((currentItem) => currentItem === item?.day)]) {
-  //     return (
-  //       <div className="forecastView_inDetails" key={item?.day + index}>
-  //         <p className="time">{item?.time_value}</p>
-  //         <p className="temperature">{item?.temperature} &#176;C</p>
-  //         <p className="temperature">{item?.feels_like} &#176;C</p>
-  //         <p>{item?.pressure}</p>
-  //         <p>{item?.clouds}</p>
-  //         <p>{item?.humidity}</p>
-  //         <p>{item?.wind_speed}</p>
-  //       </div>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // });
+  const forecastTwelve = forecastFullInfo?.filter((item: any) => item?.time_value === "12:00");
+  console.log(forecastTwelve);
 
   const forecastView: (JSX.Element | null)[] = forecastFullInfo?.map((item: any, index: number) => {
     //any
     console.log(item?.day);
-    if (item?.time_value === "12:00" && !currentDays.includes(item?.day)) {
-      return (
-        <div className="forecastView_oneDay" key={item?.day + index}>
-          <button onClick={() => handleFullWeather(item?.day)}>
-            <i>
-              <CaretDownIcon />
-            </i>
-            <span>{item?.day}</span>
-          </button>
-          <p>
-            <span>{item?.temperature} &#176;C</span>
-            <br />
-            <span>{item?.clouds}</span>
-          </p>
-          {/* <CSSTransition
-            // in={item?.day === currentDay && isShortWeather}
-            // timeout={2000}
-            // classNames={"weatherDetailed"}
-            // onEnter={() => item?.day === currentDay && setFullWeather(true)}
-            // onExited={() => item?.day === currentDay && setFullWeather(false)}
-            // unmountOnExit
-            in={item?.day === currentDay && isFullWeather}
-            timeout={2000}
-            classNames={"weatherDetailed"}
-            unmountOnExit
-          > */}
-          {/* <div>{currentDays.includes(item?.day) && <WeatherDetails item={item} />}</div> */}
-          {/* </CSSTransition> */}
-        </div>
-      );
-    } else {
-      return (
-        <div key={item?.day + index}>
-          {/* {item?.time_value === "12:00" && (
-            <div className="forecastView_oneDay">
-              <button onClick={() => handleFullWeather(item?.day)}>
-                <i>
-                  <CaretDownIcon />
-                </i>
-                <span>{item?.day}</span>
-              </button>
-              <p>
-                <span>{item?.temperature} &#176;C</span>
-                <br />
-                <span>{item?.clouds}</span>
-              </p>
-            </div>
-          )} */}
-          {currentDays.includes(item?.day) && <WeatherDetails item={item} index={index} />}
-        </div>
-      );
-    }
+    // item?.time_value === "12:00" && setForecastTwelve([...forecastTwelve, item]);
+
+    return item?.time_value === "12:00" ? (
+      <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} key={item?.day + index} />
+    ) : null;
+
+    // if (item?.time_value === "12:00" && !currentDays.includes(item?.day)) {
+    //   return <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} key={item?.day + index} />;
+    // } else {
+    //   return (
+    //     <div key={item?.day + index}>
+    //       {currentDays.includes(item?.day) && (
+    //         <>
+    //           {item?.time_value === "12:00" && (
+    //             <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
+    //           )}
+    //           <WeatherDetails item={item} index={index} />
+    //         </>
+    //       )}
+    //     </div>
+    //   );
+    // }
   });
 
   return (
