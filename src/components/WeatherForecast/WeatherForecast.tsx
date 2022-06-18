@@ -53,16 +53,18 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const forecastView: (JSX.Element | null)[] = forecastTwelve?.map((item: any, index: number) => {
     //any
     return (
-      <div key={item?.day + index}>
+      <li key={item?.day + index}>
         <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
         {currentDays.includes(item?.day) && (
           <>
             {forecastFullInfo?.map((_item: any, _index: number) => {
-              return _item?.day === item?.day && <WeatherDetails item={_item} index={_index} />;
+              return (
+                _item?.day === item?.day && <WeatherDetails item={_item} index={_index} key={_item?.day + _index} />
+              );
             })}
           </>
         )}
-      </div>
+      </li>
     );
   });
 
@@ -74,7 +76,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
       onEnter={() => dispatch(getWeatherForecast(coordinates))}
       onExited={() => dispatch(getWeatherForecast(coordinates)).then(() => dispatch(setSearchDone(true)))}
     >
-      <section className="forecastView">{forecastView}</section>
+      <ul className="forecastView">{forecastView}</ul>
     </CSSTransition>
   );
 };
