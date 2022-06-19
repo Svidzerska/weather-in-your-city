@@ -2,10 +2,13 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 import { apiWeather } from "../../api/apiWeather";
 
+import { Coordinates } from "../../interfaces/Coordinates";
+import { Weather } from "../../interfaces/Weather";
+
 interface InitialState {
   isSearchMode: boolean;
-  cityCoordinates: { data: any | null; isPending: boolean; error: any | null };
-  weatherToday: { data: any | null; isPending: boolean; error: any | null };
+  cityCoordinates: { data: Coordinates[] | null; isPending: boolean; error: any | null };
+  weatherToday: { data: Weather | null; isPending: boolean; error: any | null };
   weatherForecast: { data: any | null; isPending: boolean; error: any | null };
   isSearchDone: boolean;
   isNextSearch: boolean;
@@ -24,23 +27,23 @@ const initialState: InitialState = {
   isNextSearch: true,
 };
 
-export const getCityCoordinates = createAsyncThunk<Data, string>(
+export const getCityCoordinates = createAsyncThunk<Coordinates[], string>(
   "cityCoordinates/getCityCoordinates",
   async (city: string) => {
-    return apiWeather.getCityCoordinates(city)?.then((data) => {
-      console.log(!!data);
+    return apiWeather.getCityCoordinates(city)?.then((data: Coordinates[]) => {
       return data; //payload - data
-    }) as Promise<Data>;
+    }) as Promise<Coordinates[]>;
   }
 );
 
-export const getWeatherToday = createAsyncThunk<Data, { lat: number; lon: number }>(
+export const getWeatherToday = createAsyncThunk<Weather, { lat: number; lon: number }>(
   "weatherToday/getWeatherToday",
   async (coordinates) => {
     const { lat, lon } = coordinates;
-    return apiWeather.getWeatherToday(lat, lon)?.then((data) => {
+    return apiWeather.getWeatherToday(lat, lon)?.then((data: Weather) => {
+      console.log(data);
       return data; //payload - data
-    }) as Promise<Data>;
+    }) as Promise<Weather>;
   }
 );
 

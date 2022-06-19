@@ -7,6 +7,7 @@ import "./weatherToday.scss";
 import { backgroundChange } from "../../utilities/backgroundImage";
 
 import { getWeatherToday, setSearchDone } from "../../features/weather/weatherSlice";
+import { Weather } from "../../interfaces/Weather";
 
 const duration = 500;
 
@@ -24,7 +25,7 @@ const WeatherToday: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const background = backgroundChange();
   const lookup = require("country-code-lookup");
 
-  const weatherToday: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
+  const weatherToday: { data: Weather | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.weatherToday
   );
   const cityCoordinates: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(

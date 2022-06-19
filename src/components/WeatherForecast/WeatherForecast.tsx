@@ -9,7 +9,7 @@ import { getWeatherForecast, setSearchDone } from "../../features/weather/weathe
 import WeatherDetails from "./WeatherDetails/WeatherDetails";
 import WeatherShort from "./WeatherShort/WeatherShort";
 
-const duration = 500;
+const duration = 1000;
 
 interface Props {
   coordinates: {
@@ -62,7 +62,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
         <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
         <CSSTransition
           in={currentDays.includes(item?.day)}
-          timeout={2000}
+          timeout={duration}
           classNames="forecastView_inDetails_block"
           unmountOnExit
         >
