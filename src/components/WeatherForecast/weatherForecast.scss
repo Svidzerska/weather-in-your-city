@@ -8,6 +8,10 @@
   padding-bottom: 50px;
   margin-bottom: 0;
 
+  > li {
+    box-shadow: 4px 1px 10px $blue;
+  }
+
   .forecastView_oneDay {
     display: flex;
     flex-direction: row;

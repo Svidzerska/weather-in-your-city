@@ -40,6 +40,10 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
     console.log(currentDays);
   }, [currentDays]);
 
+  useEffect(() => {
+    console.log(currentDays);
+  }, []);
+
   const handleFullWeather = (day: string): void => {
     console.log(day);
     currentDays.includes(day)
@@ -52,11 +56,16 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
 
   const forecastView: (JSX.Element | null)[] = forecastTwelve?.map((item: any, index: number) => {
     //any
+    console.log(currentDays.includes(item?.day));
     return (
       <li key={item?.day + index}>
         <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
-        {/* {currentDays.includes(item?.day) && ( */}
-        <CSSTransition in={currentDays.includes(item?.day)} timeout={2000} classNames="forecastView_inDetails_block">
+        <CSSTransition
+          in={currentDays.includes(item?.day)}
+          timeout={2000}
+          classNames="forecastView_inDetails_block"
+          unmountOnExit
+        >
           <div className="forecastView_inDetails_block">
             {forecastFullInfo?.map((_item: any, _index: number) => {
               return (
@@ -65,7 +74,6 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
             })}
           </div>
         </CSSTransition>
-        {/* )} */}
       </li>
     );
   });

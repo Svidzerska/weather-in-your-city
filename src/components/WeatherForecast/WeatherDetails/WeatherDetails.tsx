@@ -8,8 +8,6 @@ interface Props {
 }
 
 const WeatherDetails: React.FC<Props> = ({ item, index }): JSX.Element => {
-  console.log(item, index);
-
   return (
     <>
       {(index === 0 || item?.time_value === "00:00") && (
