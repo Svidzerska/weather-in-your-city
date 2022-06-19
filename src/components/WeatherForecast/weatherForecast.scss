@@ -5,10 +5,8 @@
   flex-direction: column;
   list-style-type: none;
   padding-right: 40px;
-
-  > li {
-    overflow-x: auto;
-  }
+  padding-bottom: 50px;
+  margin-bottom: 0;
 
   .forecastView_oneDay {
     display: flex;
@@ -89,35 +87,35 @@
   opacity: 0;
 }
 //weatherDetailed
-.weatherDetailed-enter,
-.weatherDetailed-appear {
+.forecastView_inDetails_block-enter,
+.forecastView_inDetails_block-appear {
   opacity: 0;
   max-height: 0;
 }
-.weatherDetailed-enter-active,
-.weatherDetailed-appear-active {
+.forecastView_inDetails_block-enter-active,
+.forecastView_inDetails_block-appear-active {
   opacity: 1;
   max-height: 1000px;
   transition: opacity 2000ms ease-in-out, max-height 2000ms;
 }
 
-.weatherDetailed-enter-done {
+.forecastView_inDetails_block-enter-done {
   opacity: 1;
   max-height: 1000px;
 }
 
-.weatherDetailed-exit {
+.forecastView_inDetails_block-exit {
   opacity: 1;
   max-height: 1000px;
 }
-.weatherDetailed-exit-active {
+.forecastView_inDetails_block-exit-active {
   opacity: 0;
   flex-basis: 100%;
   max-height: 0;
   transition: opacity 2000ms ease-in-out, max-height 2000ms;
 }
 
-.weatherDetailed-exit-done {
+.forecastView_inDetails_block-exit-done {
   opacity: 0;
   max-height: 0;
   flex-basis: 100%;
