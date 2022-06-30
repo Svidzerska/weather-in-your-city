@@ -1,9 +1,12 @@
+import { ForecastFullInfo } from "../interfaces/ForecastFullInfo";
+import { ForecastList } from "../interfaces/ForecastList";
+
 const d2d = require("degrees-to-direction");
 
-export const getForecastFullInfo = (forecastTimeList: any) => {
-  const forecastFullInfo = forecastTimeList?.map(function (unixTimeWeather: any) {
-    const a = new Date(unixTimeWeather.dt * 1000);
-    const months = [
+export const getForecastFullInfo = (forecastTimeList: ForecastList[]) => {
+  const forecastFullInfo: ForecastFullInfo[] = forecastTimeList?.map((unixTimeWeather: ForecastList) => {
+    const a: Date = new Date(unixTimeWeather.dt * 1000);
+    const months: string[] = [
       "January",
       "February",
       "March",
@@ -17,17 +20,17 @@ export const getForecastFullInfo = (forecastTimeList: any) => {
       "November",
       "December",
     ];
-    const year = a.getFullYear();
-    const month = months[a.getMonth()];
-    const date = a.getDate();
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const day = days[a.getDay()];
+    const year: number = a.getFullYear();
+    const month: string = months[a.getMonth()];
+    const date: number = a.getDate();
+    const days: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const day: string = days[a.getDay()];
 
-    const fullDate = date + " " + month + " " + year + " " + day;
+    const fullDate: string = date + " " + month + " " + year + " " + day;
 
-    const hour = a.getHours() <= 9 ? "0" + a.getHours() : a.getHours();
-    const min = a.getMinutes() <= 9 ? "0" + a.getMinutes() : a.getMinutes();
-    const time = hour + ":" + min;
+    const hour: string | number = a.getHours() <= 9 ? "0" + a.getHours() : a.getHours();
+    const min: string | number = a.getMinutes() <= 9 ? "0" + a.getMinutes() : a.getMinutes();
+    const time: string = hour + ":" + min;
 
     return {
       date_value: fullDate,

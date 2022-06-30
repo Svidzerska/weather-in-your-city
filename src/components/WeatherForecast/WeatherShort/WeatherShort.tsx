@@ -8,6 +8,7 @@ interface Props {
 }
 
 const WeatherShort: React.FC<Props> = ({ item, clickMore }): JSX.Element => {
+  console.log(item);
   return (
     <div className="forecastView_oneDay">
       <button onClick={() => clickMore(item?.day)}>

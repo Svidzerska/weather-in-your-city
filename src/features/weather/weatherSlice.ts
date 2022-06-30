@@ -4,18 +4,15 @@ import { apiWeather } from "../../api/apiWeather";
 
 import { Coordinates } from "../../interfaces/Coordinates";
 import { Weather } from "../../interfaces/Weather";
+import { Forecast } from "../../interfaces/Forecast";
 
 interface InitialState {
   isSearchMode: boolean;
   cityCoordinates: { data: Coordinates[] | null; isPending: boolean; error: any | null };
   weatherToday: { data: Weather | null; isPending: boolean; error: any | null };
-  weatherForecast: { data: any | null; isPending: boolean; error: any | null };
+  weatherForecast: { data: Forecast | null; isPending: boolean; error: any | null };
   isSearchDone: boolean;
   isNextSearch: boolean;
-}
-
-interface Data {
-  data: any;
 }
 
 const initialState: InitialState = {
@@ -41,19 +38,19 @@ export const getWeatherToday = createAsyncThunk<Weather, { lat: number; lon: num
   async (coordinates) => {
     const { lat, lon } = coordinates;
     return apiWeather.getWeatherToday(lat, lon)?.then((data: Weather) => {
-      console.log(data);
       return data; //payload - data
     }) as Promise<Weather>;
   }
 );
 
-export const getWeatherForecast = createAsyncThunk<Data, { lat: number; lon: number }>(
+export const getWeatherForecast = createAsyncThunk<Forecast, { lat: number; lon: number }>(
   "weatherForecast/getWeatherForecast",
   async (coordinates) => {
     const { lat, lon } = coordinates;
-    return apiWeather.getWeatherForecast(lat, lon)?.then((data) => {
+    return apiWeather.getWeatherForecast(lat, lon)?.then((data: Forecast) => {
+      console.log(data);
       return data; //payload - data
-    }) as Promise<Data>;
+    }) as Promise<Forecast>;
   }
 );
 

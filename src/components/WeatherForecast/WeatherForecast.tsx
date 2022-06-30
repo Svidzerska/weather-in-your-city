@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import "./weatherForecast.scss";
 
 import { getForecastFullInfo } from "../../utilities/forecastFullInfo";
 import { getWeatherForecast, setSearchDone } from "../../features/weather/weatherSlice";
+
+import { Forecast } from "../../interfaces/Forecast";
+import { ForecastFullInfo } from "../../interfaces/ForecastFullInfo";
+
 import WeatherDetails from "./WeatherDetails/WeatherDetails";
 import WeatherShort from "./WeatherShort/WeatherShort";
 
@@ -23,40 +27,30 @@ interface Props {
 const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
   const dispatch = useAppDispatch();
 
-  const weatherForecast: { data: any | null; isPending: boolean; error: any | null } = useAppSelector(
+  const weatherForecast: { data: Forecast | null; isPending: boolean; error: any | null } = useAppSelector(
     (state) => state.weather.weatherForecast
   );
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
 
-  const [forecastFullInfo, setForecastFullInfo] = useState([]);
+  const [forecastFullInfo, setForecastFullInfo] = useState<ForecastFullInfo[]>([]);
   const [currentDays, setCurrentDays] = useState<string[]>([]);
 
   useEffect(() => {
-    const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
-    setForecastFullInfo(forecastFullInfo);
+    if (weatherForecast?.data?.list) {
+      const forecastFullInfo = getForecastFullInfo(weatherForecast?.data?.list);
+      setForecastFullInfo(forecastFullInfo);
+    }
   }, [weatherForecast]);
 
-  useEffect(() => {
-    console.log(currentDays);
-  }, [currentDays]);
-
-  useEffect(() => {
-    console.log(currentDays);
-  }, []);
-
   const handleFullWeather = (day: string): void => {
-    console.log(day);
     currentDays.includes(day)
       ? setCurrentDays(() => currentDays.filter((item) => !(item === day)))
       : setCurrentDays(() => [...currentDays, day]);
   };
 
-  const forecastTwelve = forecastFullInfo?.filter((item: any) => item?.time_value === "12:00");
-  console.log(forecastTwelve);
+  const forecastTwelve = forecastFullInfo?.filter((item: ForecastFullInfo) => item?.time_value === "12:00");
 
-  const forecastView: (JSX.Element | null)[] = forecastTwelve?.map((item: any, index: number) => {
-    //any
-    console.log(currentDays.includes(item?.day));
+  const forecastView: (JSX.Element | null)[] = forecastTwelve?.map((item: ForecastFullInfo, index: number) => {
     return (
       <li key={item?.day + index}>
         <WeatherShort item={item} clickMore={() => handleFullWeather(item?.day)} />
@@ -67,11 +61,14 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
           unmountOnExit
         >
           <div className="forecastView_inDetails_block">
-            {forecastFullInfo?.map((_item: any, _index: number) => {
-              return (
-                _item?.day === item?.day && <WeatherDetails item={_item} index={_index} key={_item?.day + _index} />
-              );
-            })}
+            <div>
+              {forecastFullInfo?.map((_item: ForecastFullInfo, _index: number) => {
+                return (
+                  _item?.day === item?.day && <WeatherDetails item={_item} index={_index} key={_item?.day + _index} />
+                );
+              })}
+            </div>
+            <button>More</button>
           </div>
         </CSSTransition>
       </li>
