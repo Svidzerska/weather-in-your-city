@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CSSTransition } from "react-transition-group";
 import { useAppSelector } from "../../../app/hooks";
 
 import { ForecastFullInfo } from "../../../interfaces/ForecastFullInfo";
@@ -16,24 +17,36 @@ const WeatherDetails: React.FC<Props> = ({ item, index }): JSX.Element => {
   return (
     <>
       {(index === 0 || item?.time_value === "00:00") && (
-        <ul className={`forecastView_inDetails_Names ${isAdditionInfo.includes(item?.day) && "additionInfo"}`}>
-          <li>Time</li>
-          {!isAdditionInfo.includes(item?.day) ? (
-            <>
-              <li>Temperature</li>
-              <li>Feels like</li>
-            </>
-          ) : (
-            <>
-              <li>Pressure, mm Hg</li>
-              <li>Clouds</li>
-              <li>Humidity, %</li>
-              <li>Wind, m/s</li>
-            </>
-          )}
-        </ul>
+        <CSSTransition
+          in={isAdditionInfo.includes(item?.day)}
+          timeout={2000}
+          classNames=""
+          onEntered={() => console.log(444444)}
+          // unmountOnExit
+        >
+          <ul
+            className={`forecastView_inDetails_Names ${
+              isAdditionInfo.includes(item?.day) ? "additionInfo" : "mainInfo"
+            }`}
+          >
+            <li>Time</li>
+            {!isAdditionInfo.includes(item?.day) ? (
+              <>
+                <li>Temperature</li>
+                <li>Feels like</li>
+              </>
+            ) : (
+              <>
+                <li>Pressure, mm Hg</li>
+                <li>Clouds</li>
+                <li>Humidity, %</li>
+                <li>Wind, m/s</li>
+              </>
+            )}
+          </ul>
+        </CSSTransition>
       )}
-      <ul className={`forecastView_inDetails ${isAdditionInfo.includes(item?.day) && "additionInfo"}`}>
+      <ul className={`forecastView_inDetails ${isAdditionInfo.includes(item?.day) ? "additionInfo" : "mainInfo"}`}>
         <li className="time">{item?.time_value}</li>
         {!isAdditionInfo.includes(item?.day) ? (
           <>

@@ -42,12 +42,30 @@
   }
 }
 
-.forecastView_inDetails.additionInfo {
-  li {
-  }
+//transition
+
+.enter,
+.appear {
+  opacity: 0;
+}
+.enter-active,
+.appear-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in-out;
 }
 
-.forecastView_inDetails_Names.additionInfo {
-  li {
-  }
+.enter-done {
+  opacity: 1;
+}
+
+.exit {
+  opacity: 0;
+}
+.exit-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in-out;
+}
+
+.exit-done {
+  opacity: 1;
 }
