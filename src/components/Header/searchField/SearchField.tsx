@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
+import { CSSTransition } from "react-transition-group";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import "./searchField.scss";
 
 import { ReactComponent as CancelIcon } from "../../../images/svg/xmarkIcon.svg";
 
-import {
-  getCityCoordinates,
-  getWeatherForecast,
-  getWeatherToday,
-  setNextSearch,
-  setSearchDone,
-  setSearchMode,
-} from "../../../features/weather/weatherSlice";
-import { Transition, TransitionStatus, CSSTransition } from "react-transition-group";
+import { getCityCoordinates, setSearchDone, setSearchMode } from "../../../features/weather/weatherSlice";
 
 const duration = 500;
-
-interface Props {
-  handleSearch: Function;
-  coordinates: { name: string; country: string; lat: number; lon: number };
-}
 
 const SearchField: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +22,6 @@ const SearchField: React.FC = () => {
   );
 
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
-  const isNextSearch: boolean = useAppSelector((state) => state.weather.isNextSearch);
 
   const [coordinates, setCoordinates] = useState<{
     name: string;

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./weatherForecast.scss";
 
 import { getForecastFullInfo } from "../../utilities/forecastFullInfo";
-import { getWeatherForecast, setSearchDone } from "../../features/weather/weatherSlice";
+import { getWeatherForecast, setSearchDone, setAdditionInfo } from "../../features/weather/weatherSlice";
 
 import { Forecast } from "../../interfaces/Forecast";
 import { ForecastFullInfo } from "../../interfaces/ForecastFullInfo";
@@ -31,6 +31,7 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
     (state) => state.weather.weatherForecast
   );
   const isSearchDone: boolean = useAppSelector((state) => state.weather.isSearchDone);
+  const isAdditionInfo: string[] = useAppSelector((state) => state.weather.isAdditionInfo);
 
   const [forecastFullInfo, setForecastFullInfo] = useState<ForecastFullInfo[]>([]);
   const [currentDays, setCurrentDays] = useState<string[]>([]);
@@ -46,6 +47,13 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
     currentDays.includes(day)
       ? setCurrentDays(() => currentDays.filter((item) => !(item === day)))
       : setCurrentDays(() => [...currentDays, day]);
+  };
+
+  const showAdditionInfo = (day: string): void => {
+    console.log(day);
+    isAdditionInfo.includes(day)
+      ? dispatch(setAdditionInfo(isAdditionInfo.filter((item) => !(item === day))))
+      : dispatch(setAdditionInfo([...isAdditionInfo, day]));
   };
 
   const forecastTwelve = forecastFullInfo?.filter((item: ForecastFullInfo) => item?.time_value === "12:00");
@@ -68,7 +76,9 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
                 );
               })}
             </div>
-            <button>More</button>
+            <button onClick={() => showAdditionInfo(item?.day)}>
+              {isAdditionInfo.includes(item?.day) ? "Less" : "More"}
+            </button>
           </div>
         </CSSTransition>
       </li>
