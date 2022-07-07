@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import "./weatherForecast.scss";
@@ -76,9 +76,17 @@ const WeatherForecast: React.FC<Props> = ({ coordinates }): JSX.Element => {
                 );
               })}
             </div>
-            <button onClick={() => showAdditionInfo(item?.day)}>
-              {isAdditionInfo.includes(item?.day) ? "Less" : "More"}
-            </button>
+            <SwitchTransition mode={"out-in"}>
+              <CSSTransition
+                key={isAdditionInfo.includes(item?.day) ? "additionInfo" : "temperatureInfo"}
+                timeout={duration}
+                classNames={isAdditionInfo.includes(item?.day) ? "additionInfo" : "temperatureInfo"}
+              >
+                <button onClick={() => showAdditionInfo(item?.day)}>
+                  {isAdditionInfo.includes(item?.day) ? "Less" : "More"}
+                </button>
+              </CSSTransition>
+            </SwitchTransition>
           </div>
         </CSSTransition>
       </li>

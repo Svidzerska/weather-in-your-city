@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useAppSelector } from "../../../app/hooks";
 
 import { ForecastFullInfo } from "../../../interfaces/ForecastFullInfo";
@@ -17,51 +17,56 @@ const WeatherDetails: React.FC<Props> = ({ item, index }): JSX.Element => {
   return (
     <>
       {(index === 0 || item?.time_value === "00:00") && (
-        <CSSTransition
-          in={isAdditionInfo.includes(item?.day)}
-          timeout={2000}
-          classNames=""
-          onEntered={() => console.log(444444)}
-          // unmountOnExit
-        >
-          <ul
-            className={`forecastView_inDetails_Names ${
-              isAdditionInfo.includes(item?.day) ? "additionInfo" : "mainInfo"
-            }`}
+        <SwitchTransition mode={"out-in"}>
+          <CSSTransition
+            key={isAdditionInfo.includes(item?.day) ? "additionInfo" : "temperatureInfo"}
+            timeout={1000}
+            classNames={isAdditionInfo.includes(item?.day) ? "additionInfo" : "temperatureInfo"}
           >
-            <li>Time</li>
+            <ul className="forecastView_inDetails_Names">
+              <li>Time</li>
+              {!isAdditionInfo.includes(item?.day) ? (
+                <>
+                  <li>Temperature</li>
+                  <li>Feels like</li>
+                </>
+              ) : (
+                <>
+                  <li>Pressure, mm Hg</li>
+                  <li>Clouds</li>
+                  <li>Humidity, %</li>
+                  <li>Wind, m/s</li>
+                </>
+              )}
+            </ul>
+          </CSSTransition>
+        </SwitchTransition>
+      )}
+
+      <SwitchTransition mode={"out-in"}>
+        <CSSTransition
+          key={isAdditionInfo.includes(item?.day) ? "additionInfo" : "temperatureInfo"}
+          timeout={1000}
+          classNames={isAdditionInfo.includes(item?.day) ? "additionInfo" : "temperatureInfo"}
+        >
+          <ul className="forecastView_inDetails">
+            <li className="time">{item?.time_value}</li>
             {!isAdditionInfo.includes(item?.day) ? (
               <>
-                <li>Temperature</li>
-                <li>Feels like</li>
+                <li className="temperature">{item?.temperature} &#176;C</li>
+                <li className="temperature">{item?.feels_like} &#176;C</li>
               </>
             ) : (
               <>
-                <li>Pressure, mm Hg</li>
-                <li>Clouds</li>
-                <li>Humidity, %</li>
-                <li>Wind, m/s</li>
+                <li>{item?.pressure}</li>
+                <li>{item?.clouds}</li>
+                <li>{item?.humidity}</li>
+                <li>{item?.wind_speed}</li>
               </>
             )}
           </ul>
         </CSSTransition>
-      )}
-      <ul className={`forecastView_inDetails ${isAdditionInfo.includes(item?.day) ? "additionInfo" : "mainInfo"}`}>
-        <li className="time">{item?.time_value}</li>
-        {!isAdditionInfo.includes(item?.day) ? (
-          <>
-            <li className="temperature">{item?.temperature} &#176;C</li>
-            <li className="temperature">{item?.feels_like} &#176;C</li>
-          </>
-        ) : (
-          <>
-            <li>{item?.pressure}</li>
-            <li>{item?.clouds}</li>
-            <li>{item?.humidity}</li>
-            <li>{item?.wind_speed}</li>
-          </>
-        )}
-      </ul>
+      </SwitchTransition>
     </>
   );
 };
